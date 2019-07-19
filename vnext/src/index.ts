@@ -14,5 +14,8 @@ export * from './Libraries/Components/Keyboard/KeyboardExt';
 export * from './Libraries/Components/Keyboard/KeyboardExtProps';
 export * from './Libraries/Components/View/ViewWindowsProps';
 export * from './Libraries/Components/View/ViewWindows';
+export * from './Libraries/Components/ReactXaml/TextBlock';
+export * from './Libraries/Components/ReactXaml/Grid';
+export * from './Libraries/Components/ReactXaml/StackPanel';
 export * from './Libraries/AppTheme/AppTheme';
 export * from './Libraries/AppTheme/AppThemeTypes';

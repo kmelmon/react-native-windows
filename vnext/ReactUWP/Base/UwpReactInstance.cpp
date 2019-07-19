@@ -44,6 +44,11 @@
 #include <Polyester/HyperlinkViewManager.h>
 #include <Polyester/IconViewManager.h>
 
+// HACKATHON:  ReactXaml types
+#include <Views/ReactXaml/TextBlockViewManager.h>
+#include <Views/ReactXaml/GridViewManager.h>
+#include <Views/ReactXaml/StackPanelViewManager.h>
+
 // Modules
 #include <AsyncStorageModule.h>
 #include <Modules/Animated/NativeAnimatedModule.h>
@@ -126,6 +131,11 @@ CreateUIManager(
       std::make_unique<polyester::HyperlinkViewManager>(instance));
   viewManagers.push_back(
       std::make_unique<polyester::IconViewManager>(instance));
+
+  // HACKATHON:  ReactXaml ViewManagers
+  viewManagers.push_back(std::make_unique<TextBlockViewManager>(instance));
+  viewManagers.push_back(std::make_unique<GridViewManager>(instance));
+  viewManagers.push_back(std::make_unique<StackPanelViewManager>(instance));
 
   // Create UIManager, passing in ViewManagers
   return createBatchingUIManager(

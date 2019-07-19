@@ -286,6 +286,15 @@
     <ClCompile Include="Modules\Animated\AnimationDriver.cpp">
       <Filter>Modules\Animated</Filter>
     </ClCompile>
+    <ClCompile Include="Views\ReactXaml\TextBlockViewManager.cpp">
+      <Filter>Views\ReactXaml</Filter>
+    </ClCompile>
+    <ClCompile Include="Views\ReactXaml\GridViewManager.cpp">
+      <Filter>Views\ReactXaml</Filter>
+    </ClCompile>
+    <ClCompile Include="Views\ReactXaml\StackPanelViewManager.cpp">
+      <Filter>Views\ReactXaml</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Modules\DeviceInfoModule.h">
@@ -624,6 +633,15 @@
     <ClInclude Include="Modules\Animated\ExtrapolationType.h">
       <Filter>Modules\Animated</Filter>
     </ClInclude>
+    <ClInclude Include="Views\ReactXaml\TextBlockViewManager.h">
+      <Filter>Views\ReactXaml</Filter>
+    </ClInclude>
+    <ClInclude Include="Views\ReactXaml\GridViewManager.h">
+      <Filter>Views\ReactXaml</Filter>
+    </ClInclude>
+    <ClInclude Include="Views\ReactXaml\StackPanelViewManager.h">
+      <Filter>Views\ReactXaml</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="EndPoints\dll\react-native-uwp.arm.def">
@@ -754,6 +772,9 @@
     </Filter>
     <Filter Include="Views\cppwinrt\winrt\impl">
       <UniqueIdentifier>{24ea7245-f460-4176-82b1-3cac4cd54621}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Views\ReactXaml">
+      <UniqueIdentifier>{031a8270-a785-4228-bf45-f5e9a9ec7c9a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

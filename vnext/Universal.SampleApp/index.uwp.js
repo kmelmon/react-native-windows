@@ -21,7 +21,15 @@ import {
   TouchableHighlight,
   ActivityIndicator,
 } from 'react-native';
-import {CheckBox, DatePicker, Popup, Picker} from 'react-native-windows';
+import {
+  CheckBox,
+  DatePicker,
+  Popup,
+  Picker,
+  TextBlock,
+  Grid,
+  StackPanel,
+} from 'react-native-windows';
 
 class TicTacButton extends Component {
   constructor(props) {
@@ -67,6 +75,10 @@ class PopupButton extends Component {
     return (
       <View style={{flexDirection: 'row', padding: 20}}>
         <Text style={{padding: 5}}>isLightDismissEnabled: </Text>
+        <Grid RowDefinitions="Height=100,Height=*">
+          <TextBlock Text="abc" />
+          <TextBlock Text="def" />
+        </Grid>
         <CheckBox
           checked={this.state.isLightDismissEnabled}
           onValueChange={value => this.setState({isLightDismissEnabled: value})}
