@@ -1020,6 +1020,7 @@ void NativeUIManager::UpdateExtraLayout(int64_t tag) {
 }
 
 void NativeUIManager::DoLayout() {
+  return;
   auto &rootTags = m_host->GetAllRootTags();
   for (int64_t rootTag : rootTags) {
     UpdateExtraLayout(rootTag);

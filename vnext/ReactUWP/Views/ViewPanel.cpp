@@ -148,6 +148,18 @@ winrt::AutomationPeer ViewPanel::OnCreateAutomationPeer() {
 }
 
 winrt::Size ViewPanel::MeasureOverride(winrt::Size availableSize) {
+
+  // HACKATHON:  Disable all flexbox-related layout.
+  // Just making ViePanel behave like a Grid with one child
+  winrt::Size desiredSize = {};
+  for (winrt::UIElement child : Children()) {
+    child.Measure(availableSize);
+    desiredSize = child.DesiredSize();
+    break;
+  }
+  return desiredSize;
+
+#if 0
   // All children are given as much size as they'd like
   winrt::Size childConstraint(INFINITY, INFINITY);
 
@@ -157,9 +169,20 @@ winrt::Size ViewPanel::MeasureOverride(winrt::Size availableSize) {
   // ViewPanels never choose their size, that is completely up to the parent -
   // so return no size
   return winrt::Size(0, 0);
+#endif
 }
 
 winrt::Size ViewPanel::ArrangeOverride(winrt::Size finalSize) {
+
+  // HACKATHON:  Disable all flexbox-related layout.
+  // Just making ViePanel behave like a Grid with one child
+  for (winrt::UIElement child : Children()) {
+    child.Arrange({0,0,finalSize.Width,finalSize.Height});
+    break;
+  }
+  return finalSize;
+
+#if 0
   for (winrt::UIElement child : Children()) {
     double childHeight = 0.0;
     double childWidth = 0.0;
@@ -197,6 +220,7 @@ winrt::Size ViewPanel::ArrangeOverride(winrt::Size finalSize) {
   UpdateClip(finalSize);
 
   return finalSize;
+#endif
 }
 
 void ViewPanel::InsertAt(uint32_t const index, winrt::UIElement const &value)
