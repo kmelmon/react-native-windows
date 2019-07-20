@@ -75,8 +75,7 @@ void GridViewManager::UpdateProperties(
           grid.RowDefinitions().Append(rd);
         }
       }
-    }
-    else if (propertyName == "ColumnDefinitions") {
+    } else if (propertyName == "ColumnDefinitions") {
       if (propertyValue.isString()) {
         std::istringstream overallStream(propertyValue.asString());
         std::string columndef;
@@ -94,7 +93,7 @@ void GridViewManager::UpdateProperties(
               cd.Width({1.0, winrt::Windows::UI::Xaml::GridUnitType::Auto});
             } else {
               cd.Width({atof(value.c_str()),
-                         winrt::Windows::UI::Xaml::GridUnitType::Pixel});
+                        winrt::Windows::UI::Xaml::GridUnitType::Pixel});
             }
           }
           grid.ColumnDefinitions().Append(cd);
@@ -104,22 +103,6 @@ void GridViewManager::UpdateProperties(
   }
 
   Super::UpdateProperties(nodeToUpdate, reactDiffMap);
-}
-
-void GridViewManager::AddView(XamlView parent, XamlView child, int64_t index) {
-  auto grid(parent.as<winrt::Grid>());
-  auto childElement(child.as<winrt::UIElement>());
-  grid.Children().InsertAt(static_cast<uint32_t>(index), childElement);
-}
-
-void GridViewManager::RemoveAllChildren(XamlView parent) {
-  auto grid(parent.as<winrt::Grid>());
-  grid.Children().Clear();
-}
-
-void GridViewManager::RemoveChildAt(XamlView parent, int64_t index) {
-  auto grid(parent.as<winrt::Grid>());
-  grid.Children().RemoveAt(static_cast<uint32_t>(index));
 }
 
 } // namespace uwp

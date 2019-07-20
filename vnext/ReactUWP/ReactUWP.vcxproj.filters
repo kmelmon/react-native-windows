@@ -295,6 +295,9 @@
     <ClCompile Include="Views\ReactXaml\StackPanelViewManager.cpp">
       <Filter>Views\ReactXaml</Filter>
     </ClCompile>
+    <ClCompile Include="Views\ReactXaml\PanelViewManager.cpp">
+      <Filter>Views\ReactXaml</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Modules\DeviceInfoModule.h">
@@ -640,6 +643,9 @@
       <Filter>Views\ReactXaml</Filter>
     </ClInclude>
     <ClInclude Include="Views\ReactXaml\StackPanelViewManager.h">
+      <Filter>Views\ReactXaml</Filter>
+    </ClInclude>
+    <ClInclude Include="Views\ReactXaml\PanelViewManager.h">
       <Filter>Views\ReactXaml</Filter>
     </ClInclude>
   </ItemGroup>

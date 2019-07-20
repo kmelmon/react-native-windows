@@ -72,21 +72,5 @@ void StackPanelViewManager::UpdateProperties(
   Super::UpdateProperties(nodeToUpdate, reactDiffMap);
 }
 
-void StackPanelViewManager::AddView(XamlView parent, XamlView child, int64_t index) {
-  auto stackPanel(parent.as<winrt::StackPanel>());
-  auto childElement(child.as<winrt::UIElement>());
-  stackPanel.Children().InsertAt(static_cast<uint32_t>(index), childElement);
-}
-
-void StackPanelViewManager::RemoveAllChildren(XamlView parent) {
-  auto stackPanel(parent.as<winrt::StackPanel>());
-  stackPanel.Children().Clear();
-}
-
-void StackPanelViewManager::RemoveChildAt(XamlView parent, int64_t index) {
-  auto stackPanel(parent.as<winrt::StackPanel>());
-  stackPanel.Children().RemoveAt(static_cast<uint32_t>(index));
-}
-
 } // namespace uwp
 } // namespace react

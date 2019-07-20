@@ -132,6 +132,22 @@ SolidColorBrushFrom(const folly::dynamic &d) {
   return brush;
 }
 
+winrt::Windows::UI::Xaml::Media::SolidColorBrush SolidColorBrushFromColor(
+    const std::string &color) {
+  winrt::hstring xamlString =
+      L"<SolidColorBrush"
+      L"    xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation'"
+      L"    xmlns:x='http://schemas.microsoft.com/winfx/2006/xaml'"
+      L"      Color='" +
+      winrt::to_hstring(color) +
+      L"' />";
+
+  auto brush{winrt::unbox_value<winrt::SolidColorBrush>(
+      winrt::Markup::XamlReader::Load(xamlString))};
+
+  return brush;
+}
+
 REACTWINDOWS_API_(winrt::Brush) BrushFrom(const folly::dynamic &d) {
   return SolidColorBrushFrom(d);
 }

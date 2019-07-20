@@ -23,6 +23,7 @@ REACTWINDOWS_API_(winrt::Windows::UI::Xaml::Media::Brush)
 BrushFrom(const folly::dynamic &d);
 REACTWINDOWS_API_(winrt::Windows::UI::Xaml::Media::SolidColorBrush)
 SolidColorBrushFrom(const folly::dynamic &d);
+winrt::Windows::UI::Xaml::Media::SolidColorBrush SolidColorBrushFromColor(const std::string& color);
 REACTWINDOWS_API_(winrt::Windows::UI::Xaml::VerticalAlignment)
 VerticalAlignmentFrom(const folly::dynamic &d);
 REACTWINDOWS_API_(winrt::Windows::UI::Xaml::HorizontalAlignment)

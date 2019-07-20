@@ -3,8 +3,8 @@
  * Licensed under the MIT License.
  * @format
  */
-import {ViewProps} from 'react-native';
+import {IPanelProps} from './PanelProps';
 
-export interface IStackPanelProps extends ViewProps {
+export interface IStackPanelProps extends IPanelProps {
   Orientation?: string;
 }

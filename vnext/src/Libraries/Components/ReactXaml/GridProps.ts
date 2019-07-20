@@ -3,9 +3,9 @@
  * Licensed under the MIT License.
  * @format
  */
-import {ViewProps} from 'react-native';
+import {IPanelProps} from './PanelProps';
 
-export interface IGridProps extends ViewProps {
+export interface IGridProps extends IPanelProps {
   RowDefinitions?: string;
   ColumnDefinitions?: string;
 }

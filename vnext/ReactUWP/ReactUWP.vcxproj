@@ -238,6 +238,7 @@
     <ClInclude Include="Views\RawTextViewManager.h" />
     <ClInclude Include="Views\ReactControl.h" />
     <ClInclude Include="Views\ReactXaml\GridViewManager.h" />
+    <ClInclude Include="Views\ReactXaml\PanelViewManager.h" />
     <ClInclude Include="Views\ReactXaml\StackPanelViewManager.h" />
     <ClInclude Include="Views\ReactXaml\TextBlockViewManager.h" />
     <ClInclude Include="Views\RootViewManager.h" />
@@ -336,6 +337,7 @@
     <ClCompile Include="Views\ReactControl.cpp" />
     <ClCompile Include="Views\ReactRootView.cpp" />
     <ClCompile Include="Views\ReactXaml\GridViewManager.cpp" />
+    <ClCompile Include="Views\ReactXaml\PanelViewManager.cpp" />
     <ClCompile Include="Views\ReactXaml\StackPanelViewManager.cpp" />
     <ClCompile Include="Views\ReactXaml\TextBlockViewManager.cpp" />
     <ClCompile Include="Views\RootViewManager.cpp" />

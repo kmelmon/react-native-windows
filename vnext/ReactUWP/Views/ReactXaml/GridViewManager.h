@@ -3,13 +3,13 @@
 
 #pragma once
 
-#include <Views/FrameworkElementViewManager.h>
+#include <Views/ReactXaml/PanelViewManager.h>
 
 namespace react {
 namespace uwp {
 
-class GridViewManager : public FrameworkElementViewManager {
-  using Super = FrameworkElementViewManager;
+class GridViewManager : public PanelViewManager {
+  using Super = PanelViewManager;
 
  public:
   GridViewManager(const std::shared_ptr<IReactInstance> &reactInstance);
@@ -19,10 +19,6 @@ class GridViewManager : public FrameworkElementViewManager {
   void UpdateProperties(
       ShadowNodeBase *nodeToUpdate,
       const folly::dynamic &reactDiffMap) override;
-
-  void AddView(XamlView parent, XamlView child, int64_t index) override;
-  void RemoveAllChildren(XamlView parent) override;
-  void RemoveChildAt(XamlView parent, int64_t index) override;
 
  protected:
   XamlView CreateViewCore(int64_t tag) override;
