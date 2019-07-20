@@ -7,4 +7,6 @@ import {IPanelProps} from './PanelProps';
 
 export interface IStackPanelProps extends IPanelProps {
   Orientation?: string;
+  BorderBrush?: string;
+  BorderThickness?: string;
 }

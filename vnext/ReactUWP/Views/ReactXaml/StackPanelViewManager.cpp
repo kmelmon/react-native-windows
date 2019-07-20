@@ -36,9 +36,8 @@ XamlView StackPanelViewManager::CreateViewCore(int64_t tag) {
 folly::dynamic StackPanelViewManager::GetNativeProps() const {
   auto props = Super::GetNativeProps();
 
-  props.update(folly::dynamic::object
-    ("Orientation", "string")
-  );
+  props.update(folly::dynamic::object("Orientation", "string")(
+      "BorderBrush", "string")("BorderThickness", "string"));
 
   return props;
 }
@@ -65,6 +64,21 @@ void StackPanelViewManager::UpdateProperties(
         }
       } else if (propertyValue.isNull()) {
         stackPanel.ClearValue(winrt::StackPanel::OrientationProperty());
+      }
+    } else if (propertyName == "BorderBrush") {
+      if (propertyValue.isString()) {
+        stackPanel.BorderBrush(
+            SolidColorBrushFromColor(propertyValue.asString()));
+      } else if (propertyValue.isNull()) {
+        stackPanel.ClearValue(winrt::StackPanel::BorderBrushProperty());
+      }
+    } else if (propertyName == "BorderThickness") {
+      if (propertyValue.isString()) {
+        auto thickness = atof(propertyValue.asString().c_str());
+        stackPanel.BorderThickness(
+            {thickness, thickness, thickness, thickness});
+      } else if (propertyValue.isNull()) {
+        stackPanel.ClearValue(winrt::StackPanel::BorderThicknessProperty());
       }
     }
   }

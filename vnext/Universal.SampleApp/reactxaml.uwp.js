@@ -12,7 +12,11 @@ import {TextBlock, Grid, StackPanel} from 'react-native-windows';
 export default class Bootstrap extends Component {
   render() {
     return (
-      <StackPanel Orientation="Horizontal" Background="Red">
+      <StackPanel
+        Orientation="Horizontal"
+        Background="Red"
+        BorderThickness="2"
+        BorderBrush="Green">
         <TextBlock Text="Hello World Reactive XAML!" />
         <TextBlock Text="TextBlock #2" />
       </StackPanel>
