@@ -5,6 +5,8 @@
  */
 import {IFrameworkElementProps} from './FrameworkElementProps';
 
-export interface IPanelProps extends IFrameworkElementProps {
-  Background?: string;
+export interface IRectangleProps extends IFrameworkElementProps {
+  Fill?: string;
+  RadiusX?: string;
+  RadiusY?: string;
 }

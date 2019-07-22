@@ -21,5 +21,6 @@ __export(require("./Libraries/Components/View/ViewWindows"));
 __export(require("./Libraries/Components/ReactXaml/TextBlock"));
 __export(require("./Libraries/Components/ReactXaml/Grid"));
 __export(require("./Libraries/Components/ReactXaml/StackPanel"));
+__export(require("./Libraries/Components/ReactXaml/Rectangle"));
 __export(require("./Libraries/AppTheme/AppTheme"));
 //# sourceMappingURL=index.js.map

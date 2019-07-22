@@ -3,8 +3,8 @@
  * Licensed under the MIT License.
  * @format
  */
-import {ViewProps} from 'react-native';
+import {IFrameworkElementProps} from './FrameworkElementProps';
 
-export interface ITextBlockProps extends ViewProps {
+export interface ITextBlockProps extends IFrameworkElementProps {
   Text?: string;
 }

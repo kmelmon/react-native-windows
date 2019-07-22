@@ -36,7 +36,8 @@ folly::dynamic GridViewManager::GetNativeProps() const {
   auto props = Super::GetNativeProps();
 
   props.update(folly::dynamic::object("RowDefinitions", "string")(
-      "ColumnDefinitions", "string"));
+      "ColumnDefinitions", "string")("CornerRadius", "string")(
+      "BorderBrush", "string")("BorderThickness", "string"));
 
   return props;
 }
@@ -98,6 +99,28 @@ void GridViewManager::UpdateProperties(
           }
           grid.ColumnDefinitions().Append(cd);
         }
+      }
+    } else if (propertyName == "CornerRadius") {
+      if (propertyValue.isString()) {
+        double radius = atof(propertyValue.asString().c_str());
+        grid.CornerRadius({radius, radius, radius, radius});
+      } else if (propertyValue.isNull()) {
+        grid.ClearValue(winrt::Grid::CornerRadiusProperty());
+      }
+    } else if (propertyName == "BorderBrush") {
+      if (propertyValue.isString()) {
+        grid.BorderBrush(
+            SolidColorBrushFromColor(propertyValue.asString()));
+      } else if (propertyValue.isNull()) {
+        grid.ClearValue(winrt::StackPanel::BorderBrushProperty());
+      }
+    } else if (propertyName == "BorderThickness") {
+      if (propertyValue.isString()) {
+        auto thickness = atof(propertyValue.asString().c_str());
+        grid.BorderThickness(
+            {thickness, thickness, thickness, thickness});
+      } else if (propertyValue.isNull()) {
+        grid.ClearValue(winrt::StackPanel::BorderThicknessProperty());
       }
     }
   }

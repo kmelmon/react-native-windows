@@ -21,5 +21,6 @@ __export(require("./Libraries/Components/View/ViewWindows.uwp"));
 __export(require("./Libraries/Components/ReactXaml/TextBlock.uwp"));
 __export(require("./Libraries/Components/ReactXaml/Grid.uwp"));
 __export(require("./Libraries/Components/ReactXaml/StackPanel.uwp"));
+__export(require("./Libraries/Components/ReactXaml/Rectangle.uwp"));
 __export(require("./Libraries/AppTheme/AppTheme.uwp"));
 //# sourceMappingURL=index.uwp.js.map

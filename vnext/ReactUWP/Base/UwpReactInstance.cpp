@@ -48,6 +48,7 @@
 #include <Views/ReactXaml/TextBlockViewManager.h>
 #include <Views/ReactXaml/GridViewManager.h>
 #include <Views/ReactXaml/StackPanelViewManager.h>
+#include <Views/ReactXaml/RectangleViewManager.h>
 
 // Modules
 #include <AsyncStorageModule.h>
@@ -136,6 +137,7 @@ CreateUIManager(
   viewManagers.push_back(std::make_unique<TextBlockViewManager>(instance));
   viewManagers.push_back(std::make_unique<GridViewManager>(instance));
   viewManagers.push_back(std::make_unique<StackPanelViewManager>(instance));
+  viewManagers.push_back(std::make_unique<RectangleViewManager>(instance));
 
   // Create UIManager, passing in ViewManagers
   return createBatchingUIManager(

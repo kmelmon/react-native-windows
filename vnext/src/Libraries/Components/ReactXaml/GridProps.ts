@@ -8,4 +8,7 @@ import {IPanelProps} from './PanelProps';
 export interface IGridProps extends IPanelProps {
   RowDefinitions?: string;
   ColumnDefinitions?: string;
+  CornerRadius?: string;
+  BorderBrush?: string;
+  BorderThickness?: string;
 }

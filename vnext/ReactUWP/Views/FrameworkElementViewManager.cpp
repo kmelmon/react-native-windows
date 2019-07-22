@@ -110,7 +110,8 @@ folly::dynamic FrameworkElementViewManager::GetNativeProps() const {
       "accessibilityRole", "string")("accessibilityStates", "array")(
       "accessibilityHint", "string")("accessibilityLabel", "string")(
       "accessibilityPosInSet", "number")("accessibilitySetSize", "number")(
-      "testID", "string")("tooltip", "string"));
+      "testID", "string")("tooltip", "string")("Width", "string")(
+      "Height", "string")("HorizontalAlignment", "string")("VerticalAlignment", "string"));
   return props;
 }
 
@@ -202,6 +203,64 @@ void FrameworkElementViewManager::UpdateProperties(
           element.ClearValue(winrt::FrameworkElement::HeightProperty());
           continue;
         }
+      } else if (propertyName == "Width") {
+        if (propertyValue.isString()) {
+          double width = atof(propertyValue.asString().c_str());
+          if (width >= 0)
+            element.Width(width);
+        } else if (propertyValue.isNull()) {
+          element.ClearValue(winrt::FrameworkElement::WidthProperty());
+          continue;
+        }
+      } else if (propertyName == "Height") {
+        if (propertyValue.isString()) {
+          double height = atof(propertyValue.asString().c_str());
+          if (height >= 0)
+            element.Height(height);
+        } else if (propertyValue.isNull()) {
+          element.ClearValue(winrt::FrameworkElement::HeightProperty());
+          continue;
+        }
+      }
+      else if (propertyName == "HorizontalAlignment") {
+        if (propertyValue.isString()) {
+          if (propertyValue.asString() == "Left")
+            element.HorizontalAlignment(
+              winrt::Windows::UI::Xaml::HorizontalAlignment::Left);
+          if (propertyValue.asString() == "Center")
+            element.HorizontalAlignment(
+              winrt::Windows::UI::Xaml::HorizontalAlignment::Center);
+          if (propertyValue.asString() == "Right")
+            element.HorizontalAlignment(
+              winrt::Windows::UI::Xaml::HorizontalAlignment::Right);
+          if (propertyValue.asString() == "Stretch")
+            element.HorizontalAlignment(
+              winrt::Windows::UI::Xaml::HorizontalAlignment::Stretch);
+        }
+        else if (propertyValue.isNull()) {
+          element.ClearValue(winrt::FrameworkElement::HorizontalAlignmentProperty());
+          continue;
+        }
+      }
+      else if (propertyName == "VerticalAlignment") {
+      if (propertyValue.isString()) {
+        if (propertyValue.asString() == "Top")
+          element.VerticalAlignment(
+            winrt::Windows::UI::Xaml::VerticalAlignment::Top);
+        if (propertyValue.asString() == "Center")
+          element.VerticalAlignment(
+            winrt::Windows::UI::Xaml::VerticalAlignment::Center);
+        if (propertyValue.asString() == "Bottom")
+          element.VerticalAlignment(
+            winrt::Windows::UI::Xaml::VerticalAlignment::Bottom);
+        if (propertyValue.asString() == "Stretch")
+          element.VerticalAlignment(
+            winrt::Windows::UI::Xaml::VerticalAlignment::Stretch);
+      }
+      else if (propertyValue.isNull()) {
+        element.ClearValue(winrt::FrameworkElement::VerticalAlignmentProperty());
+        continue;
+      }
       } else if (propertyName == "minWidth") {
         if (propertyValue.isNumber()) {
           double minWidth = propertyValue.asDouble();

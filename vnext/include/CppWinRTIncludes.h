@@ -11,6 +11,7 @@
 #include <winrt/Windows.UI.Xaml.Controls.h>
 #include <winrt/Windows.UI.Xaml.Hosting.h>
 #include <winrt/Windows.UI.Xaml.h>
+#include <winrt/Windows.UI.Xaml.Shapes.h>
 
 namespace winrt {
 using namespace ::winrt::Windows::UI::Xaml;
@@ -22,4 +23,5 @@ using namespace Windows::UI::Xaml::Controls;
 using namespace Windows::UI::Xaml::Controls::Primitives;
 using namespace Windows::UI::Composition;
 using namespace Windows::UI::Xaml::Hosting;
+using namespace ::winrt::Windows::UI::Xaml::Shapes;
 } // namespace winrt
