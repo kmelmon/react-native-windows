@@ -177,15 +177,15 @@ dynamic ViewManagerBase::GetExportedCustomBubblingEventTypeConstants() const {
 
 dynamic ViewManagerBase::GetExportedCustomDirectEventTypeConstants() const {
   folly::dynamic eventTypes = folly::dynamic::object();
-  eventTypes.update(folly::dynamic::object(
-      "topLayout", folly::dynamic::object("registrationName", "onLayout"))(
-      "topMouseEnter",
-      folly::dynamic::object("registrationName", "onMouseEnter"))(
-      "topMouseLeave",
-      folly::dynamic::object("registrationName", "onMouseLeave"))
-                    //    ("topMouseMove",
-                    //    folly::dynamic::object("registrationName",
-                    //    "onMouseMove"))
+  eventTypes.update(
+    folly::dynamic::object
+    ("topLayout", folly::dynamic::object("registrationName", "onLayout"))
+    ("topMouseEnter", folly::dynamic::object("registrationName", "onMouseEnter"))
+    ("topMouseLeave", folly::dynamic::object("registrationName", "onMouseLeave"))
+    ("topPointerEntered", folly::dynamic::object("registrationName", "PointerEntered"))
+    ("topPointerExited", folly::dynamic::object("registrationName", "PointerExited"))
+    ("topPointerPressed", folly::dynamic::object("registrationName", "PointerPressed"))
+    ("topPointerReleased", folly::dynamic::object("registrationName", "PointerReleased"))
   );
   return eventTypes;
 }

@@ -565,9 +565,9 @@ inline bool TryUpdateMouseEvents(
     ShadowNodeBase *node,
     const std::string &propertyName,
     const folly::dynamic &propertyValue) {
-  if (propertyName == "onMouseEnter")
+  if (propertyName == "onMouseEnter" || propertyName == "PointerEntered")
     node->m_onMouseEnter = !propertyValue.isNull() && propertyValue.asBool();
-  else if (propertyName == "onMouseLeave")
+  else if (propertyName == "onMouseLeave" || propertyName == "PointerExited")
     node->m_onMouseLeave = !propertyValue.isNull() && propertyValue.asBool();
   else if (propertyName == "onMouseMove")
     node->m_onMouseMove = !propertyValue.isNull() && propertyValue.asBool();

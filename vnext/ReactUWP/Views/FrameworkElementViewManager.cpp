@@ -111,7 +111,8 @@ folly::dynamic FrameworkElementViewManager::GetNativeProps() const {
       "accessibilityHint", "string")("accessibilityLabel", "string")(
       "accessibilityPosInSet", "number")("accessibilitySetSize", "number")(
       "testID", "string")("tooltip", "string")("Width", "string")(
-      "Height", "string")("HorizontalAlignment", "string")("VerticalAlignment", "string"));
+      "Height", "string")("HorizontalAlignment", "string")("VerticalAlignment", "string")
+        ("PointerEntered", "function")("PointerExited", "function")("PointerPressed", "function")("PointerReleased", "function"));
   return props;
 }
 
@@ -243,24 +244,49 @@ void FrameworkElementViewManager::UpdateProperties(
         }
       }
       else if (propertyName == "VerticalAlignment") {
-      if (propertyValue.isString()) {
-        if (propertyValue.asString() == "Top")
-          element.VerticalAlignment(
-            winrt::Windows::UI::Xaml::VerticalAlignment::Top);
-        if (propertyValue.asString() == "Center")
-          element.VerticalAlignment(
-            winrt::Windows::UI::Xaml::VerticalAlignment::Center);
-        if (propertyValue.asString() == "Bottom")
-          element.VerticalAlignment(
-            winrt::Windows::UI::Xaml::VerticalAlignment::Bottom);
-        if (propertyValue.asString() == "Stretch")
-          element.VerticalAlignment(
-            winrt::Windows::UI::Xaml::VerticalAlignment::Stretch);
+        if (propertyValue.isString()) {
+          if (propertyValue.asString() == "Top")
+            element.VerticalAlignment(
+              winrt::Windows::UI::Xaml::VerticalAlignment::Top);
+          if (propertyValue.asString() == "Center")
+            element.VerticalAlignment(
+              winrt::Windows::UI::Xaml::VerticalAlignment::Center);
+          if (propertyValue.asString() == "Bottom")
+            element.VerticalAlignment(
+              winrt::Windows::UI::Xaml::VerticalAlignment::Bottom);
+          if (propertyValue.asString() == "Stretch")
+            element.VerticalAlignment(
+              winrt::Windows::UI::Xaml::VerticalAlignment::Stretch);
+        }
+        else if (propertyValue.isNull()) {
+          element.ClearValue(winrt::FrameworkElement::VerticalAlignmentProperty());
+          continue;
+        }
       }
-      else if (propertyValue.isNull()) {
-        element.ClearValue(winrt::FrameworkElement::VerticalAlignmentProperty());
+      else if (TryUpdateMouseEvents(nodeToUpdate, propertyName, propertyValue)) {
         continue;
       }
+      else if (propertyName == "PointerPressed") {
+      m_pointerPressedRevoker =
+        element.PointerPressed(winrt::auto_revoke, [=](auto &&, auto &&args) {
+          auto instance = GetReactInstance().lock();
+          if (instance != nullptr) {
+            auto tag = nodeToUpdate->m_tag;
+            instance->DispatchEvent(tag, "topPointerPressed", std::move(folly::dynamic::object("target", tag)));
+            args.Handled(true);
+          }
+        });
+      }
+      else if (propertyName == "PointerReleased") {
+      m_pointerReleasedRevoker =
+        element.PointerReleased(winrt::auto_revoke, [=](auto &&, auto &&args) {
+          auto instance = GetReactInstance().lock();
+          if (instance != nullptr) {
+            auto tag = nodeToUpdate->m_tag;
+            instance->DispatchEvent(tag, "topPointerReleased", std::move(folly::dynamic::object("target", tag)));
+            args.Handled(true);
+          }
+        });
       } else if (propertyName == "minWidth") {
         if (propertyValue.isNumber()) {
           double minWidth = propertyValue.asDouble();

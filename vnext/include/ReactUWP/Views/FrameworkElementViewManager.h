@@ -9,6 +9,7 @@
 namespace react {
 namespace uwp {
 
+#pragma warning (disable : 4251)
 class REACTWINDOWS_EXPORT FrameworkElementViewManager : public ViewManagerBase {
   using Super = ViewManagerBase;
 
@@ -39,6 +40,10 @@ class REACTWINDOWS_EXPORT FrameworkElementViewManager : public ViewManagerBase {
       winrt::UIElement uielement,
       ShadowNodeBase *shadowNode,
       winrt::Windows::Foundation::Numerics::float4x4 transformMatrix);
+
+private:
+  winrt::FrameworkElement::PointerPressed_revoker m_pointerPressedRevoker{};
+  winrt::FrameworkElement::PointerReleased_revoker m_pointerReleasedRevoker{};
 };
 
 } // namespace uwp

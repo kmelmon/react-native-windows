@@ -274,10 +274,12 @@ void TouchEventHandler::UpdatePointersInViews(
       continue;
 
     ShadowNodeBase *node = static_cast<ShadowNodeBase *>(
-        puiManagerHost->FindShadowNodeForTag(existingTag));
+      puiManagerHost->FindShadowNodeForTag(existingTag));
     if (node != nullptr && node->m_onMouseLeave)
-      instance->DispatchEvent(
-          existingTag, "topMouseLeave", GetPointerJson(pointer, existingTag));
+    {
+      instance->DispatchEvent(existingTag, "topMouseLeave", GetPointerJson(pointer, existingTag));
+      instance->DispatchEvent(existingTag, "topPointerExited", GetPointerJson(pointer, existingTag));
+    }
   }
 
   // Notify tags new in the list
@@ -286,10 +288,12 @@ void TouchEventHandler::UpdatePointersInViews(
       continue;
 
     ShadowNodeBase *node = static_cast<ShadowNodeBase *>(
-        puiManagerHost->FindShadowNodeForTag(newTag));
+      puiManagerHost->FindShadowNodeForTag(newTag));
     if (node != nullptr && node->m_onMouseEnter)
-      instance->DispatchEvent(
-          newTag, "topMouseEnter", GetPointerJson(pointer, newTag));
+    {
+      instance->DispatchEvent(newTag, "topMouseEnter", GetPointerJson(pointer, newTag));
+      instance->DispatchEvent(newTag, "topPointerEntered", GetPointerJson(pointer, newTag));
+    }
   }
 
   m_pointersInViews[pointerId] = std::move(newViews);
@@ -330,6 +334,7 @@ void TouchEventHandler::SendPointerMove(
 
   folly::dynamic touch = GetPointerJson(pointer, pointer.target);
   instance->DispatchEvent(tag, "topMouseEnter", GetPointerJson(pointer, tag));
+  instance->DispatchEvent(tag, "topPointerEntered", GetPointerJson(pointer, tag));
 }
 
 folly::dynamic TouchEventHandler::GetPointerJson(
