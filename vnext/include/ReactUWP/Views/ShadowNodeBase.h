@@ -104,6 +104,10 @@ struct REACTWINDOWS_EXPORT ShadowNodeBase : public facebook::react::ShadowNode {
   winrt::Windows::UI::Composition::CompositionPropertySet EnsureTransformPS();
   void UpdateTransformPS();
 
+  // HACKATHON:  pointer event handlers for everyone
+  void AddPointerPressedHandler();
+  void AddPointerReleasedHandler();
+
  protected:
   XamlView m_view;
   bool m_updating = false;
@@ -130,6 +134,8 @@ struct REACTWINDOWS_EXPORT ShadowNodeBase : public facebook::react::ShadowNode {
  private:
   void EnsureHandledKeyboardEventHandler();
   std::unique_ptr<HandledKeyboardEventHandler> m_handledKeyboardEventHandler;
+  winrt::FrameworkElement::PointerPressed_revoker m_pointerPressedRevoker{};
+  winrt::FrameworkElement::PointerReleased_revoker m_pointerReleasedRevoker{};
 };
 #pragma warning(pop)
 

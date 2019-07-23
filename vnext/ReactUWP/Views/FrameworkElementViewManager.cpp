@@ -20,6 +20,7 @@
 #include <winrt/Windows.UI.Xaml.Controls.h>
 #include <winrt/Windows.UI.Xaml.Hosting.h>
 #include <winrt/Windows.UI.Xaml.h>
+#include <WindowsNumerics.h>
 
 #include "DynamicAutomationProperties.h"
 
@@ -29,6 +30,8 @@ using namespace Windows::UI::Xaml::Controls;
 using namespace Windows::UI::Xaml::Automation;
 using namespace Windows::UI::Xaml::Automation::Peers;
 } // namespace winrt
+
+using namespace Windows::Foundation::Numerics;
 
 namespace react {
 namespace uwp {
@@ -111,7 +114,7 @@ folly::dynamic FrameworkElementViewManager::GetNativeProps() const {
       "accessibilityHint", "string")("accessibilityLabel", "string")(
       "accessibilityPosInSet", "number")("accessibilitySetSize", "number")(
       "testID", "string")("tooltip", "string")("Width", "string")(
-      "Height", "string")("HorizontalAlignment", "string")("VerticalAlignment", "string")
+      "Height", "string")("HorizontalAlignment", "string")("VerticalAlignment", "string")("Translation", "string")
         ("PointerEntered", "function")("PointerExited", "function")("PointerPressed", "function")("PointerReleased", "function"));
   return props;
 }
@@ -263,30 +266,37 @@ void FrameworkElementViewManager::UpdateProperties(
           continue;
         }
       }
+      else if (propertyName == "Translation") {
+        if (propertyValue.isString()) {
+          float3 translation;
+          std::istringstream overallStream(propertyValue.asString());
+          {
+            std::string component;
+            getline(overallStream, component, ',');
+            translation.x = static_cast<float>(atof(component.c_str()));
+          }
+          {
+            std::string component;
+            getline(overallStream, component, ',');
+            translation.y = static_cast<float>(atof(component.c_str()));
+          }
+          {
+            std::string component;
+            getline(overallStream, component, ',');
+            translation.z = static_cast<float>(atof(component.c_str()));
+          }
+          element.Translation({ translation.x, translation.y, translation.z });
+        }
+        else {
+          element.Translation({ 0,0,0 });
+        }
+      }
       else if (TryUpdateMouseEvents(nodeToUpdate, propertyName, propertyValue)) {
         continue;
-      }
-      else if (propertyName == "PointerPressed") {
-      m_pointerPressedRevoker =
-        element.PointerPressed(winrt::auto_revoke, [=](auto &&, auto &&args) {
-          auto instance = GetReactInstance().lock();
-          if (instance != nullptr) {
-            auto tag = nodeToUpdate->m_tag;
-            instance->DispatchEvent(tag, "topPointerPressed", std::move(folly::dynamic::object("target", tag)));
-            args.Handled(true);
-          }
-        });
-      }
-      else if (propertyName == "PointerReleased") {
-      m_pointerReleasedRevoker =
-        element.PointerReleased(winrt::auto_revoke, [=](auto &&, auto &&args) {
-          auto instance = GetReactInstance().lock();
-          if (instance != nullptr) {
-            auto tag = nodeToUpdate->m_tag;
-            instance->DispatchEvent(tag, "topPointerReleased", std::move(folly::dynamic::object("target", tag)));
-            args.Handled(true);
-          }
-        });
+      } else if (propertyName == "PointerPressed") {
+        nodeToUpdate->AddPointerPressedHandler();
+      } else if (propertyName == "PointerReleased") {
+        nodeToUpdate->AddPointerReleasedHandler();
       } else if (propertyName == "minWidth") {
         if (propertyValue.isNumber()) {
           double minWidth = propertyValue.asDouble();

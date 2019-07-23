@@ -134,5 +134,29 @@ void ShadowNodeBase::EnsureHandledKeyboardEventHandler() {
   }
 }
 
+void ShadowNodeBase::AddPointerPressedHandler() {
+  auto element(GetView().as<winrt::FrameworkElement>());
+  m_pointerPressedRevoker =    
+    element.PointerPressed(winrt::auto_revoke, [=](auto &&, auto &&args) {
+      auto instance = GetViewManager()->GetReactInstance().lock();
+      if (instance != nullptr) {
+        instance->DispatchEvent(m_tag, "topPointerPressed", std::move(folly::dynamic::object("target", m_tag)));
+        args.Handled(true);
+      }
+    });
+}
+
+void ShadowNodeBase::AddPointerReleasedHandler() {
+  auto element(GetView().as<winrt::FrameworkElement>());
+  m_pointerReleasedRevoker =
+    element.PointerReleased(winrt::auto_revoke, [=](auto &&, auto &&args) {
+    auto instance = GetViewManager()->GetReactInstance().lock();
+    if (instance != nullptr) {
+      instance->DispatchEvent(m_tag, "topPointerReleased", std::move(folly::dynamic::object("target", m_tag)));
+      args.Handled(true);
+    }
+      });
+}
+
 } // namespace uwp
 } // namespace react
