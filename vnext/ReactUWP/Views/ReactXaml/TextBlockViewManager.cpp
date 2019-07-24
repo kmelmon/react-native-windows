@@ -52,6 +52,7 @@ folly::dynamic TextBlockViewManager::GetNativeProps() const {
   props.update(
     folly::dynamic::object
     ("Text", "string")
+    ("FontSize", "string")
   );
 
   return props;
@@ -119,6 +120,12 @@ void TextBlockViewManager::UpdateProperties(
       } else
         textBlock.ClearValue(
             winrt::TextBlock::TextProperty());
+    } else if (propertyName == "FontSize") {
+      if (propertyValue.isString()) {
+        textBlock.FontSize(atof(propertyValue.asString().c_str()));
+      } else
+        textBlock.ClearValue(
+            winrt::TextBlock::FontSizeProperty());
     }
   }
 

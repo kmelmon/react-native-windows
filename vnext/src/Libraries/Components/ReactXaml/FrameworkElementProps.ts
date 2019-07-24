@@ -10,6 +10,7 @@ export interface IFrameworkElementProps extends ViewProps {
   Height?: string;
   HorizontalAlignment?: string;
   VerticalAlignment?: string;
+  Translation?: string;
   PointerEntered?: () => void;
   PointerExited?: () => void;
   PointerPressed?: () => void;

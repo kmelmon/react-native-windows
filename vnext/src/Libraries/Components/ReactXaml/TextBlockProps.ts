@@ -7,4 +7,5 @@ import {IFrameworkElementProps} from './FrameworkElementProps';
 
 export interface ITextBlockProps extends IFrameworkElementProps {
   Text?: string;
+  FontSize?: string;
 }
