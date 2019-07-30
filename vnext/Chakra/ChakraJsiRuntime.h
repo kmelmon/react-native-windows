@@ -59,9 +59,25 @@ class ChakraJsiRuntime final : public jsi::Runtime {
   ChakraJsiRuntime(ChakraJsiRuntimeArgs &&args) noexcept;
   ~ChakraJsiRuntime() noexcept;
 
-  void evaluateJavaScript(
-      std::unique_ptr<const jsi::Buffer> buffer,
+  jsi::Value evaluateJavaScript(
+      const std::shared_ptr<const jsi::Buffer>& buffer,
       const std::string &sourceURL) override;
+
+  std::shared_ptr<const facebook::jsi::PreparedJavaScript> prepareJavaScript(const std::shared_ptr<const facebook::jsi::Buffer> &, std::string) override;
+
+  facebook::jsi::Value evaluatePreparedJavaScript(
+      const std::shared_ptr<const facebook::jsi::PreparedJavaScript> &) override;
+
+  facebook::jsi::Runtime::PointerValue *cloneSymbol(
+      const facebook::jsi::Runtime::PointerValue *) override;
+
+  std::string symbolToString(
+      const facebook::jsi::Symbol &) override;
+
+  bool strictEquals(
+      const facebook::jsi::Symbol &,
+      const facebook::jsi::Symbol &) const override;
+
   jsi::Object global() override;
 
   std::string description() override;

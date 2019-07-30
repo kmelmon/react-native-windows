@@ -74,6 +74,7 @@
 
 #if !defined(OSS_RN)
 #include "ChakraJSIRuntimeHolder.h"
+#include "HermesRuntimeHolder.h"
 #endif
 
 #include <tuple>
@@ -369,11 +370,14 @@ void UwpReactInstance::Start(
         preparedScriptStore = std::make_unique<UwpPreparedScriptStore>(
             winrt::to_hstring(settings.ByteCodeFileUri));
       }
-      devSettings->jsiRuntimeHolder = std::make_shared<ChakraJSIRuntimeHolder>(
+      /*devSettings->jsiRuntimeHolder = std::make_shared<ChakraJSIRuntimeHolder>(
           devSettings,
           jsQueue,
           std::move(scriptStore),
           std::move(preparedScriptStore));
+*/
+      devSettings->jsiRuntimeHolder =
+          std::make_shared<HermesRuntimeHolder>(devSettings);
     }
 #endif
 
