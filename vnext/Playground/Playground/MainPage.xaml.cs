@@ -35,8 +35,8 @@ namespace Playground
     private void LoadReact()
     {
       InstanceSettings settings;
-      settings.UseWebDebugger = true;
-      settings.UseLiveReload = true;
+      settings.UseWebDebugger = false;
+      settings.UseLiveReload = false;
 
       var instance = Instance.Create(JSFILENAME);
 

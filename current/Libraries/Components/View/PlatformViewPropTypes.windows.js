@@ -81,8 +81,8 @@ module.exports = {
   ]),
 
   /**
-   * Mouse move handler. 
-   * This is explicitly defined here in order to be able to have an associated "handler detection" property 
+   * Mouse move handler.
+   * This is explicitly defined here in order to be able to have an associated "handler detection" property
    * on the native side
    *
    * @platform windows
@@ -90,17 +90,17 @@ module.exports = {
   onMouseMove: PropTypes.func,
 
   /**
-   * Mouse move (capturing phase) handler. 
-   * This is explicitly defined here in order to be able to have an associated "handler detection" property 
+   * Mouse move (capturing phase) handler.
+   * This is explicitly defined here in order to be able to have an associated "handler detection" property
    * on the native side
    *
    * @platform windows
    */
-  onMouseMoveCapture: PropTypes.func,  
+  onMouseMoveCapture: PropTypes.func,
 
   /**
-   * Mouse over handler. 
-   * This is explicitly defined here in order to be able to have an associated "handler detection" property 
+   * Mouse over handler.
+   * This is explicitly defined here in order to be able to have an associated "handler detection" property
    * on the native side
    *
    * @platform windows
@@ -108,17 +108,17 @@ module.exports = {
   onMouseOver: PropTypes.func,
 
   /**
-   * Mouse over (capturing phase) handler. 
-   * This is explicitly defined here in order to be able to have an associated "handler detection" property 
+   * Mouse over (capturing phase) handler.
+   * This is explicitly defined here in order to be able to have an associated "handler detection" property
    * on the native side
    *
    * @platform windows
    */
-  onMouseOverCapture: PropTypes.func,  
+  onMouseOverCapture: PropTypes.func,
 
   /**
-   * Mouse out handler. 
-   * This is explicitly defined here in order to be able to have an associated "handler detection" property 
+   * Mouse out handler.
+   * This is explicitly defined here in order to be able to have an associated "handler detection" property
    * on the native side
    *
    * @platform windows
@@ -126,17 +126,17 @@ module.exports = {
   onMouseOut: PropTypes.func,
 
   /**
-   * Mouse out (capturing phase) handler. 
-   * This is explicitly defined here in order to be able to have an associated "handler detection" property 
+   * Mouse out (capturing phase) handler.
+   * This is explicitly defined here in order to be able to have an associated "handler detection" property
    * on the native side
    *
    * @platform windows
    */
-  onMouseOutCapture: PropTypes.func,  
+  onMouseOutCapture: PropTypes.func,
 
   /**
-   * Mouse enter handler. 
-   * This is explicitly defined here in order to be able to have an associated "handler detection" property 
+   * Mouse enter handler.
+   * This is explicitly defined here in order to be able to have an associated "handler detection" property
    * on the native side
    *
    * @platform windows
@@ -144,11 +144,15 @@ module.exports = {
 
   onMouseEnter: PropTypes.func,
   /**
-   * Mouse leave handler. 
-   * This is explicitly defined here in order to be able to have an associated "handler detection" property 
+   * Mouse leave handler.
+   * This is explicitly defined here in order to be able to have an associated "handler detection" property
    * on the native side
    *
    * @platform windows
    */
   onMouseLeave: PropTypes.func,
+
+  onPointerEntered: PropTypes.func,
+  onPointerExited: PropTypes.func,
+
 };

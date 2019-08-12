@@ -622,6 +622,8 @@ void InstanceImpl::loadBundleInternal(
       std::string bundlePath =
           m_devSettings->bundleRootPath + jsBundleRelativePath + ".bundle";
 
+      bundlePath = "ms-appx:///Assets/index.uwp.bundle";
+
       auto bundleString =
           std::make_unique<::react::uwp::StorageFileBigString>(bundlePath);
       m_innerInstance->loadScriptFromString(
