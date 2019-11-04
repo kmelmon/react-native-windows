@@ -21,7 +21,7 @@
 #include <winrt/Microsoft.ReactNative.Bridge.h>
 #include <winrt/Microsoft.ReactNative.h>
 
-#include <winrt/SampleLibraryCPP.h>
+//#include <winrt/SampleLibraryCPP.h>
 
 #include <winrt/SampleLibraryCS.SampleLibraryCS_XamlTypeInfo.h>
 #include <winrt/SampleLibraryCS.h>

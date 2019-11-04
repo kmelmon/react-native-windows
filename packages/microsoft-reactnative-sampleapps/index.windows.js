@@ -18,8 +18,6 @@ import { NativeModules } from 'react-native';
 
 const CustomUserControlCS = requireNativeComponent('CustomUserControlCS');
 
-const CustomUserControlCPP = requireNativeComponent('CustomUserControlCPP');
-
 var log = function(result) {
   console.log(result);
   NativeModules.DebugConsole.Log('' + result);
@@ -68,37 +66,6 @@ class SampleApp extends Component {
     promise2.then(getCallback('SampleModuleCS.ExplicitPromiseMethodWithArgs then => ')).catch(getCallback('SampleModuleCS.ExplicitPromiseMethodWithArgs catch => '));
   }
 
-  _onPressHandlerSMCPP() {
-    log('SampleApp._onPressHandlerSMCPP()');
-
-    var numberArg = 42;
-
-    // SampleModuleCPP constants
-
-    log(`SampleModuleCPP.NumberConstant: ${NativeModules.SampleModuleCPP.NumberConstant}`);
-    log(`SampleModuleCPP.StringConstant: ${NativeModules.SampleModuleCPP.StringConstant}`);
-
-    // SampleModuleCPP method calls
-
-    NativeModules.SampleModuleCPP.VoidMethod();
-
-    NativeModules.SampleModuleCPP.VoidMethodWithArgs(numberArg);
-
-    NativeModules.SampleModuleCPP.ReturnMethod(getCallback('SampleModuleCPP.ReturnMethod => '));
-
-    NativeModules.SampleModuleCPP.ReturnMethodWithArgs(numberArg, getCallback('SampleModuleCPP.ReturnMethodWithArgs => '));
-
-    NativeModules.SampleModuleCPP.ExplicitCallbackMethod(getCallback('SampleModuleCPP.ExplicitCallbackMethod => '));
-
-    NativeModules.SampleModuleCPP.ExplicitCallbackMethodWithArgs(numberArg, getCallback('SampleModuleCPP.ExplicitCallbackMethodWithArgs => '));
-
-    var promise1 = NativeModules.SampleModuleCPP.ExplicitPromiseMethod();
-    promise1.then(getCallback('SampleModuleCPP.ExplicitPromiseMethod then => ')).catch(getCallback('SampleModuleCPP.ExplicitPromiseMethod catch => '));
-
-    var promise2 = NativeModules.SampleModuleCPP.ExplicitPromiseMethodWithArgs(numberArg);
-    promise2.then(getCallback('SampleModuleCPP.ExplicitPromiseMethodWithArgs then => ')).catch(getCallback('SampleModuleCPP.ExplicitPromiseMethodWithArgs catch => '));
-  }
-
   _onPressHandlerCUCCS() {
     log('SampleApp._onPressHandlerCUCCS()');
 
@@ -121,12 +88,10 @@ class SampleApp extends Component {
         </Text>
 
         <Button onPress={() => { this._onPressHandlerSMCS(); }} title="Call SampleModuleCS!" disabled={NativeModules.SampleModuleCS == null} />
-        <Button onPress={() => { this._onPressHandlerSMCPP(); }} title="Call SampleModuleCPP!" disabled={NativeModules.SampleModuleCPP == null} />
 
         <CustomUserControlCS style={styles.customcontrol} label="CustomUserControlCS!" ref={(ref) => { this._cuccsRef = ref; }} />
         <Button onPress={() => { this._onPressHandlerCUCCS(); }} title="Call CustomUserControlCS Commands!" />
 
-        <CustomUserControlCPP style={styles.customcontrol} label="CustomUserControlCPP!" />
         <Text style={styles.instructions}>
           Hello from Microsoft!
         </Text>
