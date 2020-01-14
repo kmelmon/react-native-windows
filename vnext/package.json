@@ -1,6 +1,6 @@
 {
   "name": "react-native-windows",
-  "version": "0.60.0-vnext.99",
+  "version": "0.61.0-vnext.1",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -21,7 +21,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.4.0",
-    "@react-native-community/cli": "^2.6.0",
     "cli-spinners": "^2.2.0",
     "create-react-class": "^15.6.3",
     "fbjs": "^1.0.0",
@@ -48,13 +47,13 @@
     "eslint": "5.1.0",
     "just-scripts": "^0.24.2",
     "prettier": "1.17.0",
-    "react-native": "https://github.com/microsoft/react-native/archive/v0.60.0-microsoft.31.tar.gz",
-    "react": "16.8.6",
+    "react-native": "0.61.0",
+    "react": "16.9.0",
     "typescript": "3.5.3"
   },
   "peerDependencies": {
     "react": "16.8.6",
-    "react-native": "^0.60.0 || 0.60.0-microsoft.31 || https://github.com/microsoft/react-native/archive/v0.60.0-microsoft.31.tar.gz"
+    "react-native": "^0.61.0"
   },
   "beachball": {
     "defaultNpmTag": "vnext",
