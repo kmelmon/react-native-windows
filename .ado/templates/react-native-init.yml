@@ -4,8 +4,10 @@ parameters:
   version:
   platform:
   configuration:
+  experimentalNugetDependency: false
   vsComponents: ''
-  vsInstallerUri: $(VsInstallerUri)
+  listVsComponents: false
+  installVsComponents: false
 
 steps:
   - checkout: self # self represents the repo where the initial Pipelines YAML file was found
@@ -22,37 +24,48 @@ steps:
       script: yarn install --frozen-lockfile
 
   - task: CmdLine@2
-    displayName: yarn build (local react-native-windows)
+    displayName: yarn build
     inputs:
       script: yarn build
-      workingDirectory: vnext
 
-  # yarn ends up copying the whole node_modules folder when doing an install of a file package
-  # Delete node_modules, so that resolution is more like when installing from a published npm package
-  - task: CmdLine@2
-    displayName: Remove node_modules
+  - task: PowerShell@2
+    displayName: Launch test npm server (verdaccio)
     inputs:
-      script: rd /S /Q node_modules
-      workingDirectory: vnext
+      targetType: inline
+      script: |
+        start-process npx -ArgumentList @('verdaccio', '--config', './.ado/verdaccio/config.yaml')
 
-  # Remove directory ignored by npm
-  - task: CmdLine@2
-    displayName: Remove RNTesterCopy
-    inputs:
-      script: rd /S /Q RNTesterCopy
-      workingDirectory: vnext
+  - script: |
+      npm set registry http://localhost:4873
+    displayName: Modify default npm config to point to local verdaccio server
 
-  # Remove directory ignored by npm
-  - task: CmdLine@2
-    displayName: Remove IntegrationTestsCopy
+  - script: |
+      node .ado/waitForVerdaccio.js
+    displayName: Wait for verdaccio server to boot
+
+  - script: |
+      node .ado/npmAddUser.js user pass mail@nomail.com http://localhost:4873
+    displayName: Add npm user to verdaccio
+
+  - script: |
+      npx --no-install beachball publish --branch origin/$(System.PullRequest.TargetBranch) --no-push --registry http://localhost:4873 --yes --access public
+    displayName: Publish packages to verdaccio
+
+  - task: NuGetToolInstaller@0
     inputs:
-      script: rd /S /Q IntegrationTestsCopy
-      workingDirectory: vnext
+      versionSpec: ">=4.6.0"
 
   - task: CmdLine@2
     displayName: Install react-native cli
     inputs:
       script: npm install -g react-native-cli
+
+  - task: DownloadBuildArtifacts@0
+    displayName: 'Download TestMSRNNuget Artifact'
+    inputs:
+      artifactName: TestMSRNNuget.${{ parameters.platform }}.${{ parameters.configuration }}
+      downloadPath: $(System.DefaultWorkingDirectory)
+    condition: eq('true', ${{ parameters.experimentalNugetDependency }})
 
   - task: CmdLine@2
     displayName: Init new project
@@ -61,16 +74,18 @@ steps:
       workingDirectory: $(Agent.BuildDirectory)
 
   - task: CmdLine@2
-    displayName: Install rnpm-plugin-windows
-    inputs:
-      script: yarn add rnpm-plugin-windows@file:$(Build.SourcesDirectory)\current\local-cli\rnpm\windows
-      workingDirectory: $(Agent.BuildDirectory)\testcli
-
-  - task: CmdLine@2
     displayName: Apply windows template
     inputs:
-      script: react-native windows --template vnext --windowsVersion file:$(Build.SourcesDirectory)\vnext --overwrite --language ${{ parameters.language }}
+      script: npx react-native-windows-init --version master --overwrite --language ${{ parameters.language }} --experimentalNugetDependency ${{ parameters.experimentalNugetDependency }}
       workingDirectory: $(Agent.BuildDirectory)\testcli
+
+  - task: PowerShell@2
+    displayName: Install private Microsoft.ReactNative package
+    inputs:
+      targetType: inline
+      script: |
+        Install-Package Microsoft.ReactNative -Source $(System.DefaultWorkingDirectory)/TestMSRNNuget.${{ parameters.platform }}.${{ parameters.configuration }} -Destination $(Agent.BuildDirectory)\testcli\windows\packages
+    condition: eq('true', ${{ parameters.experimentalNugetDependency }})
 
   - task: NuGetCommand@2
     displayName: NuGet restore testcli
@@ -83,36 +98,46 @@ steps:
       sdkVersion: $(Win10Version)
 
   - task: PowerShell@2
+    displayName: List Visual Studio Components
+    inputs:
+      targetType: filePath
+      filePath: $(Build.SourcesDirectory)/.ado/VSComponentList.ps1
+    condition: and(succeeded(), ${{ parameters.listVsComponents }})
+
+  - task: PowerShell@2
     displayName: Install Visual Studio dependencies
     inputs:
       targetType: filePath
       filePath: $(Build.SourcesDirectory)/vnext/Scripts/Tfs/Install-VsFeatures.ps1
       arguments:
-        -InstallerUri ${{ parameters.vsInstallerUri }}
         -Components ${{ parameters.vsComponents }}
-    condition: and(ne('${{parameters.vsComponents}}', ''), eq(variables['VmImage'], 'windows-2019'))
+        -Cleanup:$true
+    condition: and(succeeded(), ${{ parameters.installVsComponents }})
 
-  - task: MSBuild@1
-    displayName: MSBuild - testcli
+  - task: VSBuild@1
+    displayName: VSBuild - testcli
     inputs:
       solution: $(Agent.BuildDirectory)\testcli\windows\testcli.sln
-      msbuildVersion: $(MSBuildVersion) # Optional. Options: latest, 16.0, 15.0, 14.0, 12.0, 4.0
+      vsVersion: $(MSBuildVersion) # Optional. Options: latest, 16.0, 15.0, 14.0, 12.0, 4.0
       msbuildArchitecture: $(MSBuildArchitecture) # Optional. Options: x86, x64
       platform: ${{ parameters.platform }} # Optional
       configuration: ${{ parameters.configuration }} # Optional
+      clean: false # Optional
+      maximumCpuCount: false # Optional
+      restoreNugetPackages: false # Optional
       createLogFile: true
       logFileVerbosity: detailed
-      msbuildArguments:
+      msbuildArgs:
         /p:PreferredToolArchitecture=$(MSBuildPreferredToolArchitecture)
         /p:PlatformToolset=$(MSBuildPlatformToolset)
-        /p:BaseIntDir=$(BaseIntDir)
+        /p:AppxGeneratePrisForPortableLibrariesEnabled=false
 
   - task: PublishBuildArtifacts@1
     condition:  succeededOrFailed()
     timeoutInMinutes: 10
     inputs:
       pathtoPublish: $(Agent.BuildDirectory)/testcli/windows/testcli.sln.log
-      artifactName: Detailed Logs for testcli.sln ${{ parameters.platform }} ${{ parameters.configuration }}
+      artifactName: Detailed Logs for testcli.sln ${{ parameters.platform }} ${{ parameters.configuration }} ${{ parameters.experimentalNugetDependency }}
       publishLocation: 'Container'
 
   - task: CmdLine@2

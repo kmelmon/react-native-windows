@@ -25,6 +25,8 @@
 
 #include "DynamicAutomationProperties.h"
 
+#include <Views/ViewPanel.h>
+
 namespace winrt {
 using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Controls;
@@ -32,9 +34,6 @@ using namespace Windows::UI::Xaml::Automation;
 using namespace Windows::UI::Xaml::Automation::Peers;
 using namespace Windows::Foundation::Collections;
 } // namespace winrt
-
-namespace react {
-namespace uwp {
 
 template <>
 struct json_type_traits<winrt::react::uwp::AccessibilityAction> {
@@ -68,6 +67,9 @@ struct json_type_traits<winrt::IVector<winrt::react::uwp::AccessibilityAction>> 
     return vector;
   }
 };
+
+namespace react {
+namespace uwp {
 
 FrameworkElementViewManager::FrameworkElementViewManager(const std::shared_ptr<IReactInstance> &reactInstance)
     : Super(reactInstance) {}

@@ -16,7 +16,13 @@ const {commandWithProgress, newSpinner} = require('./commandWithProgress');
 const util = require('util');
 const existsAsync = util.promisify(fs.exists);
 
-async function buildSolution(slnFile, buildType, buildArch, verbose) {
+async function buildSolution(
+  slnFile,
+  buildType,
+  buildArch,
+  msBuildProps,
+  verbose,
+) {
   const minVersion = new Version(10, 0, 18362, 0);
   const allVersions = MSBuildTools.getAllAvailableUAPVersions();
   if (!allVersions.some(v => v.gte(minVersion))) {
@@ -26,11 +32,17 @@ async function buildSolution(slnFile, buildType, buildArch, verbose) {
   }
 
   const msBuildTools = MSBuildTools.findAvailableVersion(buildArch, verbose);
-  await msBuildTools.buildProject(slnFile, buildType, buildArch, null, verbose);
+  await msBuildTools.buildProject(
+    slnFile,
+    buildType,
+    buildArch,
+    msBuildProps,
+    verbose,
+  );
 }
 
 async function nugetRestore(nugetPath, slnFile, verbose, msbuildVersion) {
-  const text = 'Restoring NuGets';
+  const text = 'Restoring NuGet packages ';
   const spinner = newSpinner(text);
   console.log(nugetPath);
   await commandWithProgress(
@@ -62,7 +74,7 @@ async function restoreNuGetPackages(options, slnFile, verbose) {
       ensureNugetSpinner,
       dlNugetText,
       'powershell',
-      `Invoke-WebRequest https://dist.nuget.org/win-x86-commandline/v4.9.2/nuget.exe -outfile ${nugetPath}`.split(
+      `$progressPreference = [System.Management.Automation.ActionPreference]::SilentlyContinue; Invoke-WebRequest https://dist.nuget.org/win-x86-commandline/v4.9.2/nuget.exe -outfile ${nugetPath}`.split(
         ' ',
       ),
       verbose,
@@ -71,20 +83,43 @@ async function restoreNuGetPackages(options, slnFile, verbose) {
   ensureNugetSpinner.succeed('Found NuGet Binary');
 
   const msbuildTools = MSBuildTools.findAvailableVersion('x86', verbose);
-  await nugetRestore(
-    nugetPath,
-    slnFile,
-    verbose,
-    msbuildTools.installationVersion,
-  );
+  try {
+    await nugetRestore(
+      nugetPath,
+      slnFile,
+      verbose,
+      msbuildTools.installationVersion,
+    );
+  } catch (e) {
+    if (!options.isRetryingNuget) {
+      const retryOptions = Object.assign({isRetryingNuget: true}, options);
+      fs.unlinkSync(nugetPath);
+      return restoreNuGetPackages(retryOptions, slnFile, verbose);
+    }
+    throw e;
+  }
 }
 
 function getSolutionFile(options) {
   return glob.sync(path.join(options.root, 'windows/*.sln'))[0];
 }
 
+function parseMsBuildProps(options) {
+  if (options.msbuildprops) {
+    var result = {};
+    var props = options.msbuildprops.split(',');
+    for (var i = 0; i < props.length; i++) {
+      var prop = props[i].split('=');
+      result[prop[0]] = prop[1];
+    }
+    return result;
+  }
+  return null;
+}
+
 module.exports = {
   buildSolution,
   getSolutionFile,
   restoreNuGetPackages,
+  parseMsBuildProps,
 };

@@ -1,7 +1,107 @@
 # Change Log - @office-iss/react-native-win32
 
-This log was last generated on Tue, 11 Feb 2020 01:21:44 GMT and should not be manually modified.
+This log was last generated on Fri, 03 Apr 2020 18:59:23 GMT and should not be manually modified.
 
+<!-- Start content -->
+
+## 0.0.0-master.3
+
+Fri, 03 Apr 2020 18:59:23 GMT
+
+### Changes
+
+- Generate sourcemap for offline RNTester bundle in win32 (acoates@microsoft.com)
+
+## 0.0.0-master.2
+Sun, 29 Mar 2020 20:42:04 GMT
+
+### Changes
+
+- Update typescript version to 3.8.3 (acoates@microsoft.com)
+## 0.0.0-master.1
+Thu, 26 Mar 2020 22:33:20 GMT
+
+### Changes
+
+- 0.0.0 Master Versioning Scheme (ngerlem@microsoft.com)
+## 0.61.0-beta.16
+Wed, 18 Mar 2020 23:06:37 GMT
+
+### Changes
+
+- update API docs (kmelmon@microsoft.com)
+## 0.61.0-beta.15
+Tue, 17 Mar 2020 22:20:57 GMT
+
+### Changes
+
+- Add Cursor to ViewWin32Props (lehon@microsoft.com)
+## 0.61.0-beta.14
+Mon, 02 Mar 2020 22:47:03 GMT
+
+### Changes
+
+- More Override Manifest Functionality (Unit Tests Coming Next Iteration) (ngerlem@microsoft.com)
+## 0.61.0-beta.13
+Mon, 02 Mar 2020 21:53:02 GMT
+
+### Changes
+
+- Upgrade just-scripts and add root test script (ngerlem@microsoft.com)
+## 0.61.0-beta.12
+Mon, 02 Mar 2020 20:19:34 GMT
+
+### Changes
+
+- Prevent react-native-win32 From Blowing Up on Startup (ngerlem@microsoft.com)
+## 0.61.0-beta.11
+Thu, 27 Feb 2020 23:45:30 GMT
+
+### Changes
+
+- Complete Override Manifest for react-native-win32 (ngerlem@microsoft.com)
+## 0.61.0-beta.10
+Thu, 27 Feb 2020 17:47:49 GMT
+
+### Changes
+
+- Add missing license to react-native-win32 (ngerlem@microsoft.com)
+## 0.61.0-beta.8
+Fri, 21 Feb 2020 01:27:13 GMT
+
+### Changes
+
+- Update metro configs to support node 12 on windows (acoates)
+## 0.61.0-beta.6
+Sat, 15 Feb 2020 01:46:09 GMT
+
+### Changes
+
+- update devDependencies to use latest TS types (kmelmon@microsoft.com)
+## 0.61.0-beta.5
+Thu, 13 Feb 2020 01:37:12 GMT
+
+### Changes
+
+- Set doc generation to output to new path. Update docs to include recent changes. (aschultz@microsoft.com)
+## 0.61.0-beta.4
+Wed, 12 Feb 2020 11:16:52 GMT
+
+### Changes
+
+- Provide a Minimal PlatformConstants Implementation (ngerlem@microsoft.com)
+## 0.61.0-beta.3
+Wed, 12 Feb 2020 07:03:22 GMT
+
+### Changes
+
+- Do not use default export to export PersonaCoin, and export PersonCoinTypes correctly (acoates@microsoft.com)
+## 0.61.0-beta.2
+Wed, 12 Feb 2020 02:40:30 GMT
+
+### Changes
+
+- Export PersonaCoin (acoates@microsoft.com)
 ## 0.61.0-beta.1
 Tue, 11 Feb 2020 01:21:44 GMT
 
@@ -3264,4 +3364,3 @@ Mon, 01 May 2017 19:28:16 GMT
 ### Patches
 
 - Move @office-iss/react-native to 0.40.1 to fix build
-

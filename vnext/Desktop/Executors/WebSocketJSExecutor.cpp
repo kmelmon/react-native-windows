@@ -105,7 +105,7 @@ void WebSocketJSExecutor::handleMemoryPressure(int pressureLevel) {}
 
 void WebSocketJSExecutor::destroy() {
   if (State::Connected == m_state || State::Running == m_state)
-    m_webSocket->Close(IWebSocket::CloseCode::GoingAway, "Disposed");
+    m_webSocket->Close(IWebSocketResource::CloseCode::GoingAway, "Disposed");
 
   SetState(State::Disposed);
 }
@@ -118,9 +118,10 @@ std::future<bool> WebSocketJSExecutor::ConnectAsync(
   promise<bool> resultPromise;
   m_errorCallback = std::move(errorCallback);
 
-  m_webSocket = IWebSocket::Make(webSocketServerUrl);
+  m_webSocket =
+      IWebSocketResource::Make(webSocketServerUrl, /*legacyImplementation*/ true); // TODO: Drop legacy impl #4509
   m_webSocket->SetOnMessage([this](size_t /*length*/, const string &message) { this->OnMessageReceived(message); });
-  m_webSocket->SetOnError([this](const IWebSocket::Error &err) { this->SetState(State::Error); });
+  m_webSocket->SetOnError([this](const IWebSocketResource::Error &err) { this->SetState(State::Error); });
 
   try {
     promise<void> connectPromise;
@@ -135,7 +136,7 @@ std::future<bool> WebSocketJSExecutor::ConnectAsync(
     auto status = connectPromise.get_future().wait_for(std::chrono::milliseconds(ConnectTimeoutMilliseconds));
     if (std::future_status::ready != status) {
       m_errorCallback("Timeout: Failed to connect to the dev server");
-      m_webSocket->Close(IWebSocket::CloseCode::ProtocolError, "Timed out");
+      m_webSocket->Close(IWebSocketResource::CloseCode::ProtocolError, "Timed out");
 
       resultPromise.set_value(false);
       return resultPromise.get_future();
@@ -152,7 +153,7 @@ std::future<bool> WebSocketJSExecutor::ConnectAsync(
     m_errorCallback(IsConnected() ? "Timeout: preparing JS runtime" : "Timeout: Failed to connect to the dev server");
 
     try {
-      m_webSocket->Close(IWebSocket::CloseCode::ProtocolError, "Timed out");
+      m_webSocket->Close(IWebSocketResource::CloseCode::ProtocolError, "Timed out");
     } catch (const std::exception &) {
       // Nothing left to do. Aborting operation.
     }

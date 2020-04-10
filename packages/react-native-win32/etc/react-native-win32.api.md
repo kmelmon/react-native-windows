@@ -7,9 +7,10 @@
 import { GestureResponderEvent } from 'react-native';
 import { Insets } from 'react-native';
 import { NativeSyntheticEvent } from 'react-native';
-import * as React from 'react';
+import * as React_2 from 'react';
 import RN = require('react-native');
 import { StyleProp } from 'react-native';
+import { ViewProps } from 'react-native';
 import { ViewStyle } from 'react-native';
 
 // @public (undocumented)
@@ -53,7 +54,7 @@ export type BasePropsWin32 = {
 // Warning: (ae-forgotten-export) The symbol "IButtonWin32State" needs to be exported by the entry point typings-main.d.ts
 //
 // @public
-export class ButtonWin32 extends React.Component<IButtonWin32Props, IButtonWin32State> {
+export class ButtonWin32 extends React_2.Component<IButtonWin32Props, IButtonWin32State> {
     constructor(props: IButtonWin32Props);
     // (undocumented)
     render(): JSX.Element;
@@ -61,6 +62,9 @@ export class ButtonWin32 extends React.Component<IButtonWin32Props, IButtonWin32
 
 // @public (undocumented)
 export type ButtonWin32OmitStyles = RN.TextStyleIOS & RN.TextStyleAndroid;
+
+// @public (undocumented)
+export type Cursor = 'auto' | 'pointer';
 
 // @public (undocumented)
 export enum EventPhase {
@@ -88,11 +92,11 @@ export interface IButtonWin32Props extends RN.ButtonProps {
 // Warning: (ae-forgotten-export) The symbol "Omit" needs to be exported by the entry point typings-main.d.ts
 //
 // @public (undocumented)
-export interface IButtonWin32Style extends Omit_3<RN.TextStyle, ButtonWin32OmitStyles> {
+export interface IButtonWin32Style extends Omit_4<RN.TextStyle, ButtonWin32OmitStyles> {
 }
 
 // @public
-export type IChildAsFunction<T> = (state: T) => React.ReactNode;
+export type IChildAsFunction<T> = (state: T) => React_2.ReactNode;
 
 // @public
 export interface IDimensions {
@@ -124,6 +128,34 @@ export interface INativeKeyboardEvent {
     metaKey: boolean;
     // (undocumented)
     shiftKey: boolean;
+}
+
+// @public (undocumented)
+export interface IPersonaCoinProps extends ViewProps {
+    // (undocumented)
+    brandIconSource?: string | IImageSourceProps;
+    // (undocumented)
+    color?: number;
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    displayName?: string;
+    // (undocumented)
+    emailAddress?: string;
+    // (undocumented)
+    initials?: string;
+    // (undocumented)
+    onError?: () => void;
+    // (undocumented)
+    onLoad?: () => void;
+    // (undocumented)
+    presence: PersonaCoinPresence;
+    // (undocumented)
+    size: PersonaCoinSize;
+    // Warning: (ae-forgotten-export) The symbol "IImageSourceProps" needs to be exported by the entry point typings-main.d.ts
+    //
+    // (undocumented)
+    source?: string | IImageSourceProps;
 }
 
 // @public
@@ -161,7 +193,7 @@ export interface IPressInLocation {
 }
 
 // @public
-export type IRenderChild<T> = IChildAsFunction<T> | React.ReactNode;
+export type IRenderChild<T> = IChildAsFunction<T> | React_2.ReactNode;
 
 // @public
 export type IRenderStyle<T, S> = (state: T) => StyleProp<S>;
@@ -191,7 +223,7 @@ export type IStateConditions = {
 // Warning: (ae-forgotten-export) The symbol "Omit" needs to be exported by the entry point typings-main.d.ts
 //
 // @public (undocumented)
-export interface ITextWin32Props extends Omit_2<RN.TextProps, TextWin32OmitTypes>, BasePropsWin32 {
+export interface ITextWin32Props extends Omit_3<RN.TextProps, TextWin32OmitTypes>, BasePropsWin32 {
     // @deprecated
     textStyle?: TextStyle;
     tooltip?: string;
@@ -286,7 +318,7 @@ export interface IViewWin32 {
 // Warning: (ae-forgotten-export) The symbol "Omit" needs to be exported by the entry point typings-main.d.ts
 //
 // @public
-export interface IViewWin32Props extends Omit<RN.ViewProps, ViewWin32OmitTypes>, BasePropsWin32 {
+export interface IViewWin32Props extends Omit_2<RN.ViewProps, ViewWin32OmitTypes>, BasePropsWin32 {
     // (undocumented)
     acceptsKeyboardFocus?: boolean;
     // (undocumented)
@@ -301,7 +333,9 @@ export interface IViewWin32Props extends Omit<RN.ViewProps, ViewWin32OmitTypes>,
     // (undocumented)
     animationClass?: string;
     // (undocumented)
-    children?: React.ReactNode;
+    children?: React_2.ReactNode;
+    // (undocumented)
+    cursor?: Cursor;
     // (undocumented)
     keyDownEvents?: IHandledKeyboardEvent[];
     // (undocumented)
@@ -324,7 +358,7 @@ export interface IViewWin32Props extends Omit<RN.ViewProps, ViewWin32OmitTypes>,
     onMouseLeave?: () => void;
     tooltip?: string;
     // (undocumented)
-    type?: React.ElementType;
+    type?: React_2.ElementType;
 }
 
 // @public (undocumented)
@@ -335,6 +369,45 @@ export type OmittedAccessibilityPropsWin32 = {
 };
 
 // @public (undocumented)
+export const PersonaCoin: React_2.FunctionComponent<IPersonaCoinProps>;
+
+// @public (undocumented)
+export enum PersonaCoinPresence {
+    // (undocumented)
+    away = 1,
+    // (undocumented)
+    blocked = 2,
+    // (undocumented)
+    busy = 3,
+    // (undocumented)
+    doNotDisturb = 4,
+    // (undocumented)
+    none = 0,
+    // (undocumented)
+    offline = 5,
+    // (undocumented)
+    online = 6,
+    // (undocumented)
+    oof = 7
+}
+
+// @public (undocumented)
+export enum PersonaCoinSize {
+    // (undocumented)
+    extraExtraLarge = 5,
+    // (undocumented)
+    extraLarge = 4,
+    // (undocumented)
+    extraSmall = 0,
+    // (undocumented)
+    large = 3,
+    // (undocumented)
+    normal = 2,
+    // (undocumented)
+    small = 1
+}
+
+// @public (undocumented)
 export type SharedAccessibilityPropsIOSandWin32 = {
     onAccessibilityTap?: () => void;
 };
@@ -343,19 +416,19 @@ export type SharedAccessibilityPropsIOSandWin32 = {
 export type TextStyle = 'None' | 'SmallStandard' | 'SmallSecondary' | 'MediumStandard' | 'MediumSecondary' | 'MediumApp' | 'MediumBold' | 'MediumBoldApp' | 'LargeStandard' | 'LargePlusStandard' | 'ExtraLargeStandard' | 'HugeStandard';
 
 // @public (undocumented)
-export class TextWin32 extends React.Component<ITextWin32Props, {}> {
+export class TextWin32 extends React_2.Component<ITextWin32Props, {}> {
     constructor(props: ITextWin32Props);
     // (undocumented)
     render(): JSX.Element;
 }
 
 // @public (undocumented)
-export type TextWin32OmitTypes = RN.TextPropsAndroid & RN.TextPropsIOS & RN.AccessibilityPropsAndroid & Omit_2<RN.AccessibilityPropsIOS, SharedAccessibilityPropsIOSandWin32> & OmittedAccessibilityPropsWin32;
+export type TextWin32OmitTypes = RN.TextPropsAndroid & RN.TextPropsIOS & RN.AccessibilityPropsAndroid & Omit_3<RN.AccessibilityPropsIOS, SharedAccessibilityPropsIOSandWin32> & OmittedAccessibilityPropsWin32;
 
 // Warning: (ae-forgotten-export) The symbol "IInternalTouchableWin32State" needs to be exported by the entry point typings-main.d.ts
 //
 // @public
-export class TouchableWin32 extends React.Component<ITouchableWin32Props, IInternalTouchableWin32State> {
+export class TouchableWin32 extends React_2.Component<ITouchableWin32Props, IInternalTouchableWin32State> {
     constructor(props: any);
     // (undocumented)
     componentWillUnmount(): void;
@@ -367,7 +440,7 @@ export class TouchableWin32 extends React.Component<ITouchableWin32Props, IInter
 export type UseFrom<TOrigin, TUse, Key extends keyof TUse> = Pick<TOrigin, Exclude<keyof TOrigin, Key>> & Pick<TUse, Key>;
 
 // @public (undocumented)
-export class ViewWin32 extends React.Component<IViewWin32Props, {}> implements IViewWin32 {
+export class ViewWin32 extends React_2.Component<IViewWin32Props, {}> implements IViewWin32 {
     constructor(props: IViewWin32Props);
     focus(): void;
     // (undocumented)
@@ -375,7 +448,7 @@ export class ViewWin32 extends React.Component<IViewWin32Props, {}> implements I
 }
 
 // @public (undocumented)
-export type ViewWin32OmitTypes = RN.ViewPropsAndroid & RN.ViewPropsIOS & RN.AccessibilityPropsAndroid & Omit<RN.AccessibilityPropsIOS, SharedAccessibilityPropsIOSandWin32> & OmittedAccessibilityPropsWin32;
+export type ViewWin32OmitTypes = RN.ViewPropsAndroid & RN.ViewPropsIOS & RN.AccessibilityPropsAndroid & Omit_2<RN.AccessibilityPropsIOS, SharedAccessibilityPropsIOSandWin32> & OmittedAccessibilityPropsWin32;
 
 
 ```

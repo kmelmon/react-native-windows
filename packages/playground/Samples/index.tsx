@@ -14,7 +14,6 @@ import {
   Switch,
   Text,
   View,
-  //WebView, // disabled because of #3517
   Image,
   Linking,
   NativeSyntheticEvent,
@@ -133,7 +132,7 @@ class PopupButton extends React.Component<
     this.closePopup();
   }
 
-  _onPopupDismissed(_isOpen: boolean) {
+  _onPopupDismissed() {
     this.closePopup();
   }
 }
@@ -747,12 +746,6 @@ export default class Bootstrap extends React.Component<
               style={{height: 30}}
             />
           </View>
-          {/* disabled because of #3517
-          <WebView
-            style={{width: 350, height: 500}}
-            source={{uri: 'https://login.live.com'}}
-          />
-          */}
           <View style={{padding: 10}}>
             <Text>Test DatePicker</Text>
             <Text>

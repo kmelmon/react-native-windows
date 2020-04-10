@@ -41,11 +41,11 @@ const ComponentExamples: Array<IRNTesterExample> = [
   },
   {
     key: 'CustomViewExample',
-    module: require('./../examples-win/CustomView/CustomViewExample.windows'),
+    module: require('./../examples-win/CustomView/CustomViewExample'),
   },
   {
     key: 'DatePickerExample',
-    module: require('./../examples-win/DatePicker/DatePickerExample.windows'),
+    module: require('./../examples-win/DatePicker/DatePickerExample'),
   },
   {
     key: 'FastTextExample',
@@ -57,7 +57,7 @@ const ComponentExamples: Array<IRNTesterExample> = [
   },
   {
     key: 'FlyoutExample',
-    module: require('./../examples-win/Flyout/FlyoutExample.windows'),
+    module: require('./../examples-win/Flyout/FlyoutExample'),
   },
   {
     key: 'GlyphExample',
@@ -85,11 +85,11 @@ const ComponentExamples: Array<IRNTesterExample> = [
   },
   {
     key: 'PopupExample',
-    module: require('./../examples-win/Popup/PopupExample.windows'),
+    module: require('./../examples-win/Popup/PopupExample'),
   },
   {
     key: 'KeyboardExtensionExample',
-    module: require('./../examples-win/Keyboard/KeyboardExtensionExample.windows'),
+    module: require('./../examples-win/Keyboard/KeyboardExtensionExample'),
   },
   {
     key: 'ScrollViewSimpleExample',
@@ -105,11 +105,11 @@ const ComponentExamples: Array<IRNTesterExample> = [
   },
   {
     key: 'TextExample',
-    module: require('./../examples-win/Text/TextExample.windows'),
+    module: require('./../examples-win/Text/TextExample'),
   },
   {
     key: 'TextInputExample',
-    module: require('./../examples-win/TextInput/TextInputExample.windows'),
+    module: require('./../examples-win/TextInput/TextInputExample'),
   },
   {
     key: 'TouchableExample',
@@ -132,7 +132,7 @@ const ComponentExamples: Array<IRNTesterExample> = [
 const APIExamples: Array<IRNTesterExample> = [
   {
     key: 'KeyboardFocusExample',
-    module: require('./../examples-win/Keyboard/KeyboardFocusExample.windows'),
+    module: require('./../examples-win/Keyboard/KeyboardFocusExample'),
   },
   {
     key: 'AccessibilityExample',
@@ -141,6 +141,10 @@ const APIExamples: Array<IRNTesterExample> = [
   {
     key: 'AccessibilityExampleWindows',
     module: require('./../examples-win/Accessibility/AccessibilityExampleWindows'),
+  },
+  {
+    key: 'AsyncStorageExampleWindows',
+    module: require('./../examples-win/AsyncStorage/AsyncStorageExampleWindows'),
   },
   {
     key: 'AlertExample',
@@ -226,6 +230,10 @@ const APIExamples: Array<IRNTesterExample> = [
   {
     key: 'WebSocketExample',
     module: require('react-native/RNTester/js/examples/WebSocket/WebSocketExample'),
+  },
+  {
+    key: 'TurboModuleExample',
+    module: require('react-native/RNTester/js/examples/TurboModule/TurboModuleExample'),
   },
   /* TODO: ? XHRExample requires CameraRoll access
   {

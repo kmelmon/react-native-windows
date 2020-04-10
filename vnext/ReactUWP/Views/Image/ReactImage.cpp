@@ -32,7 +32,11 @@ namespace react {
 namespace uwp {
 
 /*static*/ winrt::com_ptr<ReactImage> ReactImage::Create() {
-  return winrt::make_self<ReactImage>();
+  auto reactImage = winrt::make_self<ReactImage>();
+  // Grid inheirts the layout direction from parent and mirrors the background image in RTL mode.
+  // Forcing the container to LTR mode to avoid the unexpected mirroring behavior.
+  reactImage->FlowDirection(winrt::FlowDirection::LeftToRight);
+  return reactImage;
 }
 
 winrt::Size ReactImage::ArrangeOverride(winrt::Size finalSize) {
@@ -96,28 +100,32 @@ void ReactImage::Source(ReactImageSource source) {
     return;
   }
 
-  m_imageSource = source;
+  try {
+    winrt::Uri uri{Utf8ToUtf16(source.uri)};
+    winrt::hstring scheme{uri.SchemeName()};
+    winrt::hstring ext{uri.Extension()};
 
-  winrt::Uri uri{Utf8ToUtf16(m_imageSource.uri)};
-  winrt::hstring scheme{uri.SchemeName()};
-  winrt::hstring ext{uri.Extension()};
+    if (((scheme == L"http") || (scheme == L"https")) && !source.headers.empty()) {
+      source.sourceType = ImageSourceType::Download;
+    } else if (scheme == L"data") {
+      source.sourceType = ImageSourceType::InlineData;
+    } else if (ext == L".svg" || ext == L".svgz") {
+      source.sourceType = ImageSourceType::Svg;
+    }
 
-  if (((scheme == L"http") || (scheme == L"https")) && !m_imageSource.headers.empty()) {
-    m_imageSource.sourceType = ImageSourceType::Download;
-  } else if (scheme == L"data") {
-    m_imageSource.sourceType = ImageSourceType::InlineData;
-  } else if (ext == L".svg" || ext == L".svgz") {
-    m_imageSource.sourceType = ImageSourceType::Svg;
+    m_imageSource = source;
+
+    SetBackground(true);
+  } catch (winrt::hresult_error const &) {
+    m_onLoadEndEvent(*this, false);
   }
-
-  SetBackground(true);
 }
 
 winrt::IAsyncOperation<winrt::InMemoryRandomAccessStream> ReactImage::GetImageMemoryStreamAsync(
     ReactImageSource source) {
   switch (source.sourceType) {
     case ImageSourceType::Download:
-      return co_await GetImageStreamAsync(source);
+      co_return co_await GetImageStreamAsync(source);
     case ImageSourceType::InlineData:
       co_return co_await GetImageInlineDataAsync(source);
     default: // ImageSourceType::Uri
@@ -312,24 +320,24 @@ winrt::IAsyncOperation<winrt::InMemoryRandomAccessStream> GetImageStreamAsync(Re
     winrt::HttpClient httpClient;
     winrt::HttpResponseMessage response{co_await httpClient.SendRequestAsync(request)};
 
-    if (response.StatusCode() == winrt::HttpStatusCode::Ok) {
+    if (response && response.StatusCode() == winrt::HttpStatusCode::Ok) {
       winrt::IInputStream inputStream{co_await response.Content().ReadAsInputStreamAsync()};
       winrt::InMemoryRandomAccessStream memoryStream;
       co_await winrt::RandomAccessStream::CopyAsync(inputStream, memoryStream);
       memoryStream.Seek(0);
 
-      return memoryStream;
+      co_return memoryStream;
     }
   } catch (winrt::hresult_error const &) {
   }
 
-  return nullptr;
+  co_return nullptr;
 }
 
 winrt::IAsyncOperation<winrt::InMemoryRandomAccessStream> GetImageInlineDataAsync(ReactImageSource source) {
   size_t start = source.uri.find(',');
   if (start == std::string::npos || start + 1 > source.uri.length())
-    return nullptr;
+    co_return nullptr;
 
   try {
     co_await winrt::resume_background();
@@ -342,12 +350,12 @@ winrt::IAsyncOperation<winrt::InMemoryRandomAccessStream> GetImageInlineDataAsyn
     co_await memoryStream.WriteAsync(buffer);
     memoryStream.Seek(0);
 
-    return memoryStream;
+    co_return memoryStream;
   } catch (winrt::hresult_error const &) {
     // Base64 decode failed
   }
 
-  return nullptr;
+  co_return nullptr;
 }
 } // namespace uwp
 } // namespace react
